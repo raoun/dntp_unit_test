@@ -1,0 +1,22 @@
+file(GLOB SRCS *.cpp)
+
+include_directories("${binary_dir}/googletest/include")
+
+ADD_EXECUTABLE(testMyLib ${SRCS})
+
+TARGET_LINK_LIBRARIES(testMyLib
+    myLib
+    libgtest
+)
+
+add_test(NAME testMyLib
+COMMAND testMyLib)
+
+
+enable_testing()
+set(PROJECT_TEST_NAME ${PROJECT_NAME_STR}_test)
+include_directories(${GTEST_INCLUDE_DIRS} ${COMMON_INCLUDES})
+
+file(GLOB TEST_SRC_FILES ${PROJECT_SOURCE_DIR}/myLib/test/*.cpp)
+add_executable(${PROJECT_TEST_NAME} ${TEST_SRC_FILES})
+add_dependencies(${PROJECT_TEST_NAME} gtest)
